@@ -2,7 +2,7 @@
 
 ## Table Of Contents
 
-<!---toc start-->
+<!--ts-->
 
 * [Workflow Description Language](#workflow-description-language)
   * [Table Of Contents](#table-of-contents)
@@ -161,7 +161,7 @@
       * [Array\[Object\] deserialization](#arrayobject-deserialization)
         * [Object deserialization using read_objects()](#object-deserialization-using-read_objects)
 
-<!---toc end-->
+<!--te-->
 
 ## Introduction
 

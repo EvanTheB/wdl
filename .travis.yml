@@ -1,4 +1,10 @@
 {
-    "before_script": "npm i markdown-spellcheck -g",
-    "script": "mdspell -n -a --en-us -r versions/development/SPEC.md"
+    "before_script": [
+        "npm i markdown-spellcheck -g",
+        "wget https://raw.githubusercontent.com/ekalinin/github-markdown-toc/master/gh-md-toc"
+        ],
+    "script": [
+        "mdspell -n -a --en-us -r versions/development/SPEC.md",
+        "bash gh-md-toc --insert versions/development/SPEC.md""
+        ]
 }
