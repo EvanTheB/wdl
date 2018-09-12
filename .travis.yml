@@ -1,4 +1,4 @@
 {
     "before_script": "npm install yaspeller-ci --save-dev",
-    "script": "yaspeller-ci *.md"
+    "script": "node_modules/yaspeller-ci/bin.js versions/development/SPEC.md"
 }
