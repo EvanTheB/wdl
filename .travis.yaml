@@ -1,0 +1,4 @@
+{
+    "before_script": "npm install yaspeller-ci --save-dev",
+    "script": "yaspeller-ci *.md"
+}
