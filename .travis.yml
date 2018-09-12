@@ -5,6 +5,7 @@
         ],
     "script": [
         "mdspell -n -a --en-us -r versions/development/SPEC.md",
-        "bash gh-md-toc --insert versions/development/SPEC.md""
+        "bash gh-md-toc --insert versions/development/SPEC.md",
+        "git diff --quiet versions/development/SPEC.md"
         ]
 }
