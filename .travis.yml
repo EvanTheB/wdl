@@ -3,9 +3,7 @@ before_script:
 - wget https://raw.githubusercontent.com/ekalinin/github-markdown-toc/master/gh-md-toc
 script:
 - mdspell -n -a --en-us -r versions/development/SPEC.md
-- bash gh-md-toc --insert versions/development/SPEC.md
-after_success:
-- .travis/push.sh
+- bash gh-md-toc --insert versions/development/SPEC.md && git diff --quiet versions/development/SPEC.md || .travis/push.sh
 env:
   global:
     secure: D74Wec7/5ybMZkOxVC7mm7KzgAn/ziVRH34yUJkC3yEpIG2i7Y+4K9nJD4wPYDkloTH1ffUKMYTM3xaaDKqYB2GaqZFwaR9V47sALHC+zzqs9gOIdcLgs9AmPlb9iQpylHdyMlXKEJ6r4wxZShxUXQVuyfuAU6x4XegUR/xAJKtDcPmsfN8dAbcjK8qb6lWtyWuLULJGe00L1/JdUhwnutNIY5PwNPOuoz8NKkWEVQPT+wugdeDASFPKy5bNWqE6eo3HsV4/LWETnGaa0FKRseWZBmxRLX7TWbep+OBk7HykycmgCHSNI06XVeYBXRUXhocey8KWWlbxgjtMYscXFltDJqvFwXDoHbdAcg7eM9t7RzmuD+Fa60v28T6uaKDTzPkTfVrCtM+1PTnEQZbF+ItE82REELF0sdZfW+TrJHgZ5/6UINhywlfDm0xyC60GagZc4299JXapcYYRRoWBvcr1G6N1Oh5BshDDdnZnK2CMw3YghtQRUrPL2XFgYbYdjStp94E5vnSb4r8Ssie1mCWjgG/A1Ko23QxHq8SRfGxB1XVKTU4E5uhaGFtA24CVs45nSOyrwL/oKhvhdwXIlCHzixcQBZaVsGIZFnKLv1N6RotmLofBOOj5aRUjXGmYOIalohvzo6NyEwL3PYB5l2+K0auxbBCPO2GM2wNdJaI=
