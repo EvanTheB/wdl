@@ -2,163 +2,12 @@
 
 ## Table Of Contents
 
-<!---toc start-->
+<!--ts-->
 
-* [Workflow Description Language](#workflow-description-language)
-  * [Table Of Contents](#table-of-contents)
-  * [Introduction](#introduction)
-  * [State of the Specification](#state-of-the-specification)
-* [Language Specification](#language-specification)
-  * [Global Grammar Rules](#global-grammar-rules)
-    * [Whitespace, Strings, Identifiers, Constants](#whitespace-strings-identifiers-constants)
-    * [Types](#types)
-    * [Fully Qualified Names & Namespaced Identifiers](#fully-qualified-names--namespaced-identifiers)
-    * [Declarations](#declarations)
-    * [Expressions](#expressions)
-    * [Operator Precedence Table](#operator-precedence-table)
-    * [Member Access](#member-access)
-    * [Map and Array Indexing](#map-and-array-indexing)
-    * [Pair Indexing](#pair-indexing)
-    * [Function Calls](#function-calls)
-    * [Array Literals](#array-literals)
-    * [Map Literals](#map-literals)
-    * [Object Literals](#object-literals)
-    * [Pair Literals](#pair-literals)
-  * [Document](#document)
-  * [Versioning](#versioning)
-  * [Import Statements](#import-statements)
-  * [Task Definition](#task-definition)
-    * [Task Sections](#task-sections)
-    * [Task Inputs](#task-inputs)
-      * [Task Input Declaration](#task-input-declaration)
-      * [Task Input Localization](#task-input-localization)
-    * [Command Section](#command-section)
-      * [Expression Placeholders](#command-parts)
-      * [Expression Placeholder Options](#command-part-options)
-        * [sep](#sep)
-        * [true and false](#true-and-false)
-        * [default](#default)
-      * [Alternative heredoc syntax](#alternative-heredoc-syntax)
-      * [Stripping Leading Whitespace](#stripping-leading-whitespace)
-    * [Outputs Section](#outputs-section)
-      * [Globs](#globs)
-        * [Task portability and non-standard BaSH](#task-portability-and-non-standard-bash)
-    * [String Interpolation](#string-interpolation)
-    * [Runtime Section](#runtime-section)
-      * [docker](#docker)
-      * [memory](#memory)
-    * [Parameter Metadata Section](#parameter-metadata-section)
-    * [Metadata Section](#metadata-section)
-    * [Examples](#examples)
-      * [Example 1: Simplest Task](#example-1-simplest-task)
-      * [Example 2: Inputs/Outputs](#example-2-inputsoutputs)
-      * [Example 3: Runtime/Metadata](#example-3-runtimemetadata)
-      * [Example 4: BWA mem](#example-4-bwa-mem)
-      * [Example 5: Word Count](#example-5-word-count)
-      * [Example 6: tmap](#example-6-tmap)
-  * [Workflow Definition](#workflow-definition)
-    * [Workflow Elements](#workflow-elements)
-    * [Workflow Inputs](#workflow-inputs)
-      * [Optional Inputs](#optional-inputs)
-      * [Declared Inputs: Defaults and Overrides](#declared-inputs-defaults-and-overrides)
-        * [Optional inputs with defaults](#optional-inputs-with-defaults)
-    * [Call Statement](#call-statement)
-      * [Call Input Blocks](#call-input-blocks)
-      * [Sub Workflows](#sub-workflows)
-    * [Scatter](#scatter)
-    * [Conditionals](#conditionals)
-    * [Parameter Metadata](#parameter-metadata)
-    * [Metadata](#metadata)
-    * [Outputs](#outputs)
-  * [Struct Definition](#struct-definition)
-    * [Declarations](#struct-declarations)
-      * [Optional and non Empty Struct Values](#optional-and-non-empty-struct-values)
-    * [Using a Struct](#using-a-struct)
-      * [Struct Assignment From Object Literal](#struct-assignment-from-object-literal)
-      * [Struct Member Access](#struct-member-access)
-      * [Importing Structs](#importing-structs)
-* [Namespaces](#namespaces)
-* [Scope](#scope)
-* [Optional Parameters & Type Constraints](#optional-parameters--type-constraints)
-  * [Prepending a String to an Optional Parameter](#prepending-a-string-to-an-optional-parameter)
-* [Scatter / Gather](#scatter--gather)
-* [Variable Resolution](#variable-resolution)
-  * [Task-Level Resolution](#task-level-resolution)
-  * [Workflow-Level Resolution](#workflow-level-resolution)
-* [Computing Inputs](#computing-inputs)
-  * [Computing Task Inputs](#task-inputs)
-  * [Computing Workflow Inputs](#workflow-inputs)
-  * [Specifying Workflow Inputs in JSON](#specifying-workflow-inputs-in-json)
-  * [Optional Inputs](#optional-inputs)
-  * [Declared Inputs: Defaults and Overrides](#declared-inputs-defaults-and-overrides)
-    * [Optional Inputs with Defaults](#optional-inputs-with-defaults)
-  * [Call Input Blocks](#call-input-blocks)
-* [Type Coercion](#type-coercion)
-* [Standard Library](#standard-library)
-  * [File stdout()](#file-stdout)
-  * [File stderr()](#file-stderr)
-  * [Array\[String\] read_lines(String|File)](#arraystring-read_linesstringfile)
-  * [Array\[Array\[String\]\] read_tsv(String|File)](#arrayarraystring-read_tsvstringfile)
-  * [Map\[String, String\] read_map(String|File)](#mapstring-string-read_mapstringfile)
-  * [Object read_object(String|File)](#object-read_objectstringfile)
-  * [Array\[Object\] read_objects(String|File)](#arrayobject-read_objectsstringfile)
-  * [mixed read_json(String|File)](#mixed-read_jsonstringfile)
-  * [Int read_int(String|File)](#int-read_intstringfile)
-  * [String read_string(String|File)](#string-read_stringstringfile)
-  * [Float read_float(String|File)](#float-read_floatstringfile)
-  * [Boolean read_boolean(String|File)](#boolean-read_booleanstringfile)
-  * [File write_lines(Array\[String\])](#file-write_linesarraystring)
-  * [File write_tsv(Array\[Array\[String\]\])](#file-write_tsvarrayarraystring)
-  * [File write_map(Map\[String, String\])](#file-write_mapmapstring-string)
-  * [File write_object(Object)](#file-write_objectobject)
-  * [File write_objects(Array\[Object\])](#file-write_objectsarrayobject)
-  * [File write_json(mixed)](#file-write_jsonmixed)
-  * [Float size(File, \[String\])](#float-sizefile-string)
-  * [String sub(String, String, String)](#string-substring-string-string)
-  * [Array\[Int\] range(Int)](#arrayint-rangeint)
-  * [Array\[Array\[X\]\] transpose(Array\[Array\[X\]\])](#arrayarrayx-transposearrayarrayx)
-  * [Array\[Pair(X,Y)\] zip(Array\[X\], Array\[Y\])](#arraypairxy-ziparrayx-arrayy)
-  * [Array\[Pair(X,Y)\] cross(Array\[X\], Array\[Y\])](#arraypairxy-crossarrayx-arrayy)
-  * [Integer length(Array\[X\])](#integer-lengtharrayx)
-  * [Array\[X\] flatten(Array\[Array\[X\]\])](#arrayx-flattenarrayarrayx)
-  * [Array\[String\] prefix(String, Array\[X\])](#arraystring-prefixstring-arrayx)
-  * [X select_first(Array\[X?\])](#x-select_firstarrayx)
-  * [Array\[X\] select_all(Array\[X?\])](#arrayx-select_allarrayx)
-  * [Boolean defined(X?)](#boolean-definedx)
-  * [String basename(String)](#string-basenamestring)
-  * [Int floor(Float), Int ceil(Float) and Int round(Float)](#int-floorfloat-int-ceilfloat-and-int-roundfloat)
-* [Data Types & Serialization](#data-types--serialization)
-  * [Serialization of Task Inputs](#serialization-of-task-inputs)
-    * [Primitive Types](#primitive-types)
-    * [Compound Types](#compound-types)
-      * [Array serialization](#array-serialization)
-        * [Array serialization by expansion](#array-serialization-by-expansion)
-        * [Array serialization using write_lines()](#array-serialization-using-write_lines)
-        * [Array serialization using write_json()](#array-serialization-using-write_json)
-      * [Map serialization](#map-serialization)
-        * [Map serialization using write_map()](#map-serialization-using-write_map)
-        * [Map serialization using write_json()](#map-serialization-using-write_json)
-      * [Object serialization](#object-serialization)
-        * [Object serialization using write_object()](#object-serialization-using-write_object)
-        * [Object serialization using write_json()](#object-serialization-using-write_json)
-      * [Array\[Object\] serialization](#arrayobject-serialization)
-        * [Array\[Object\] serialization using write_objects()](#arrayobject-serialization-using-write_objects)
-        * [Array\[Object\] serialization using write_json()](#arrayobject-serialization-using-write_json)
-  * [De-serialization of Task Outputs](#de-serialization-of-task-outputs)
-    * [Primitive Types](#primitive-types)
-    * [Compound Types](#compound-types)
-      * [Array deserialization](#array-deserialization)
-        * [Array deserialization using read_lines()](#array-deserialization-using-read_lines)
-        * [Array deserialization using read_json()](#array-deserialization-using-read_json)
-      * [Map deserialization](#map-deserialization)
-        * [Map deserialization using read_map()](#map-deserialization-using-read_map)
-        * [Map deserialization using read_json()](#map-deserialization-using-read_json)
-      * [Object deserialization](#object-deserialization)
-        * [Object deserialization using read_object()](#object-deserialization-using-read_object)
-      * [Array\[Object\] deserialization](#arrayobject-deserialization)
-        * [Object deserialization using read_objects()](#object-deserialization-using-read_objects)
 
-<!---toc end-->
+<!-- Added by: travis, at: 2018-09-12T07:50+0000 -->
+
+<!--te-->
 
 ## Introduction
 
@@ -281,7 +130,7 @@ File f = "path/to/file"    # A file
 In addition, the following compound types can be constructed, parameterized by other types. In the examples below `P` represents any of the primitive types above, and `X` and `Y` represent any valid type (even nested compound types):
 ```wdl
 Array[X] xs = [x1, x2, x3]                    # An array of Xs
-Map[P,Y] p_to_y = { p1: y1, p2: y2, p3: y3 }  # A map from Ps to Ys
+Map[P,Y] p_to_y = { p1: y1, p2: y2, p3: y3 }  # An ordered map from Ps to Ys
 Pair[X,Y] x_and_y = (x, y)                    # A pair of one X and one Y
 Object o = { "field1": f1, "field2": f2 }     # Object keys are always `String`s
 ```
@@ -760,8 +609,18 @@ Engines should at the very least support the following protocols for import URIs
 
 * `http://` and `https://`
 * `file://`
-* no protocol (which should be interpreted as `file://`
+* No protocol (see below)
 
+In the event that there is no protocol the import is resolved **relative** to the location of the current document. If a protocol-less import starts with `/` it will be interpreted as starting from the root of the host in the resolved URL. It is up to the implementation to provide a mechanism which allows these imports to be resolved correctly.
+
+Some examples of correct import resolution:
+
+| Root Workflow Location                                | Imported Path                      | Resolved Path                                           |
+|-------------------------------------------------------|------------------------------------|---------------------------------------------------------|
+| file://foo/bar/baz/qux.wdl                            | some/task.wdl                      | file://foo/bar/baz/some/task.wdl                        |
+| http://www.github.com/openwdl/coolwdls/myWorkflow.wdl | subworkflow.wdl                    | http://www.github.com/openwdl/coolwdls/subworkflow.wdl  |
+| http://www.github.com/openwdl/coolwdls/myWorkflow.wdl | /openwdl/otherwdls/subworkflow.wdl | http://www.github.com/openwdl/otherwdls/subworkflow.wdl |
+| file://some/path/hello.wdl                            | /another/path/world.wdl            | file:///another/path/world.wdl                          |
 
 ## Task Definition
 
@@ -2113,7 +1972,6 @@ Scopes are defined as:
 
 * `workflow {...}` blocks
 * `call` blocks
-* `while(expr) {...}` blocks
 * `if(expr) {...}` blocks
 * `scatter(x in y) {...}` blocks
 
@@ -3051,6 +2909,44 @@ Array[String] ys = [ "a", "b", "c" ]
 Array[String] zs = [ "d", "e" ]
 
 Array[Pair[Int, String]] crossed = cross(xs, zs) # i.e. crossed = [ (1, "d"), (1, "e"), (2, "d"), (2, "e"), (3, "d"), (3, "e") ]
+```
+
+## Array[Pair[X,Y]] as_pairs(Map[X,Y])
+
+Given a Map, the `as_pairs` function returns an Array containing each element in the form of a Pair. The key will be the left element of the Pair and the value the right element. The order of the the Pairs in the resulting Array is the same as the order of the key/value pairs in the Map.
+
+```
+Map[String, Int] x = {"a": 1, "b": 2, "c": 3}
+Map[String,Pair[File,File]] y = {"a": ("a.bam", "a.bai"), "b": ("b.bam", "b.bai")}
+
+Array[Pair[String,Int]] xpairs = as_pairs(x) # [("a", 1), ("b", 2), ("c", 3)]
+Array[Pair[String,Pair[File,File]]] ypairs = as_pairs(y) # [("a", ("a.bam", "a.bai")), ("b", ("b.bam", "b.bai"))]
+```
+
+## Map[X,Y] as_map(Array[Pair[X,Y]])
+
+Given an Array consisting of Pairs, the `as_map` function returns a Map in which the left elements of the Pairs are the keys and the right elements the values. The left element of the Pairs passed to `as_map` must be a primitive type. The order of the key/value pairs in the resulting Map is the same as the order of the Pairs in the Array.
+
+In cases where multiple Pairs would produce the same key, the workflow will fail.
+
+```
+Array[Pair[String,Int]] x = [("a", 1), ("b", 2), ("c", 3)]
+Array[Pair[String,Pair[File,File]]] y = [("a", ("a.bam", "a.bai")), ("b", ("b.bam", "b.bai"))]
+
+Map[String,Int] xmap = as_map(x) # {"a": 1, "b": 2, "c": 3}
+Map[String,Pair[File,File]] ymap = as_map(y) # {"a": ("a.bam", "a.bai"), "b": ("b.bam", "b.bai")}
+```
+
+## Map[X,Array[Y]] collect_by_key(Array[Pair[X,Y]])
+
+Given an Array consisting of Pairs, the `collect_by_key` function returns a Map in which the left elements of the Pairs are the keys and the right elements the values. The left element of the Pairs passed to `as_map` must be a primitive type. The values will be placed in an Array to allow for multiple Pairs to produce the same key. The order of the keys in the Map is the same as the order in the Array based on their first occurence. The order of the elements in the resulting Arrays is the same as their occurence in the given Array of Pairs.
+
+```
+Array[Pair[String,Int]] x = [("a", 1), ("b", 2), ("a", 3)]
+Array[Pair[String,Pair[File,File]]] y = [("a", ("a_1.bam", "a_1.bai")), ("b", ("b.bam", "b.bai")), ("a", ("a_2.bam", "a_2.bai"))]
+
+Map[String,Array[Int]] xmap = as_map(x) # {"a": [1, 3], "b": [2]}
+Map[String,Array[Pair[File,File]]] ymap = as_map(y) # {"a": [("a_1.bam", "a_1.bai"), ("a_2.bam", "a_2.bai")], "b": [("b.bam", "b.bai")]}
 ```
 
 ## Integer length(Array[X])
